@@ -4,15 +4,17 @@ const path = require( 'path' );
 
 module.exports = {
     context: __dirname,
-    entry: './src/index.js',
+    entry: {
+        app: './src/index.js'
+    },
     output: {
-        path: path.resolve( __dirname, 'dist' ),
         filename: 'main.js',
+        path: path.resolve( __dirname, 'dist' ),
         publicPath: '/',
     },
-    devServer: {
-        historyApiFallback: true
-     },
+    // devServer: {
+    //     historyApiFallback: true
+    // },
     module: {
         rules: [
             {
@@ -39,12 +41,6 @@ module.exports = {
                 use: [ 'style-loader', 'css-loader' ],
                 exclude: /\.module\.css$/
             },
-            // { 
-            //     test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
-            //     use: {
-            //       loader: 'url-loader?limit=10000&mimetype=application/font-woff'
-            //     }
-            // },
             {
                 test: /\.(png|j?g|svg|gif)?$/,
                 use: 'file-loader'
