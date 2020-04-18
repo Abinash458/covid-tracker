@@ -4,6 +4,7 @@ import CountUp from 'react-countup';
 import cx from 'classnames';
 
 import styles from './Cards.module.css';
+import Data from './data';
 
 const Cards = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
     if (!confirmed) {
@@ -13,51 +14,31 @@ const Cards = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
     return (
         <div className={styles.container}>
             <Grid container spacing={3} justify="center">
-                <Grid item component={Card} xs={12} md={3} className={cx(styles.card, styles.infected)}>
-                    <CardContent>
-                        <Typography color="textSecondary" gutterBottom>Infected</Typography>
-                        <Typography varient="h5"> 
-                            <CountUp
-                                start={0}
-                                end={confirmed.value}
-                                duration={2.5}
-                                separator= ","
-                            />
-                        </Typography>
-                        <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography>
-                        <Typography variant="body2">Number of active cases of COVID-19</Typography>
-                    </CardContent>
-                </Grid>
-                <Grid item component={Card} xs={12} md={3} className={cx(styles.card, styles.recovered)}>
-                    <CardContent>
-                        <Typography color="textSecondary" gutterBottom>Recovered</Typography>
-                        <Typography varient="h5"> 
-                            <CountUp
-                                start={0}
-                                end={recovered.value}
-                                duration={2.5}
-                                separator= ","
-                            />
-                        </Typography>
-                        <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography>
-                        <Typography variant="body2">Number of recovires from COVID-19</Typography>
-                    </CardContent>
-                </Grid>
-                <Grid item component={Card} xs={12} md={3} className={cx(styles.card, styles.deaths)}>
-                    <CardContent>
-                        <Typography color="textSecondary" gutterBottom>Deaths</Typography>
-                        <Typography varient="h5"> 
-                            <CountUp
-                                start={0}
-                                end={deaths.value}
-                                duration={2.5}
-                                separator= ","
-                            />
-                        </Typography>
-                        <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography>
-                        <Typography variant="body2">Number of deaths caused by COVID-19</Typography>
-                    </CardContent>
-                </Grid>
+            {
+                Data.map((item, i ) => 
+                    <Grid key={i} item component={Card} xs={12} md={3} className={cx(styles.card, styles.infected)}>
+                        <CardContent>
+                            <Typography color="textSecondary" gutterBottom> {item.cardLabel} </Typography>
+                            <Typography varient="h5"> 
+                                <CountUp
+                                    start={0}
+                                    end={
+                                        item.cardLabel === 'Infected' ? 
+                                        confirmed.value : 
+                                        item.cardLabel === "Recovered" ? 
+                                        recovered.value : 
+                                        deaths.value 
+                                    }
+                                    duration={2.5}
+                                    separator= ","
+                                />
+                            </Typography>
+                            <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography>
+                            <Typography variant="body2"> {item.LabelDescription} </Typography>
+                        </CardContent>
+                    </Grid>
+                )
+            }
             </Grid>
         </div>
     );
