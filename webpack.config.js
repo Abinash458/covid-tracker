@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
+const ErrorOverlayPlugin = require("error-overlay-webpack-plugin");
 const path = require( 'path' );
 
 module.exports = {
@@ -20,9 +21,30 @@ module.exports = {
                 use: 'babel-loader'
             },
             {
-                test: /\.css?$/,
-                use: [ 'style-loader', 'css-loader' ]
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                            modules: true
+                        }
+                    }
+                ],
+                include: /\.module\.css$/
             },
+            {
+                test: /\.css$/,
+                use: [ 'style-loader', 'css-loader' ],
+                exclude: /\.module\.css$/
+            },
+            // { 
+            //     test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+            //     use: {
+            //       loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+            //     }
+            // },
             {
                 test: /\.(png|j?g|svg|gif)?$/,
                 use: 'file-loader'
@@ -30,6 +52,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new ErrorOverlayPlugin(),
         new HtmlWebPackPlugin({
             template: path.resolve( __dirname, 'public/index.html' ),
             filename: 'index.html'
