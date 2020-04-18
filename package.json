@@ -12,9 +12,13 @@
   "author": "Abinash Mohapatra",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
+    "classnames": "^2.2.6",
     "css-loader": "^3.5.2",
     "file-loader": "^6.0.0",
     "react": "^16.13.1",
+    "react-chartjs-2": "^2.9.0",
+    "react-countup": "^4.3.3",
     "react-dom": "^16.13.1",
     "style-loader": "^1.1.4"
   },
